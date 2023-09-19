@@ -19,12 +19,25 @@ spring:
           predicates:
             - Path=/first-service/**
           filters:
-            - AddRequestHeader=first-request, first-requestsadasd-header
-            - AddResponseHeader=first-response-by-yml, first-response-header
+#            - AddRequestHeader=first-request, first-requestsadasd-header
+#            - AddResponseHeader=first-response-by-yml, first-response-header
+            - CustomFilter
         - id: second-service
           uri: http://localhost:8082/
           predicates:
             - Path=/second-service/**
           filters:
-            - AddRequestHeader=second-request, second-request-header
-            - AddResponseHeader=second-response-by-yml, second-response-header
+#            - AddRequestHeader=second-request, second-request-header
+#            - AddResponseHeader=second-response-by-yml, second-response-header
+            - name: CustomFilter
+            - name: LoggingFilter
+              args:
+                baseMessage: Spring Cloud GateWay Logging Filter
+                preLogger: true
+                postLogger: true
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud GateWay Global Filter
+            preLogger: true
+            postLogger: true
