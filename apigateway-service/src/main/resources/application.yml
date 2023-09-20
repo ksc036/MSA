@@ -23,3 +23,18 @@ spring:
           uri: lb://MY-SECOND-SERVICE
           predicates:
             - Path=/second-service/**
+          filters:
+#            - AddRequestHeader=second-request, second-request-header
+#            - AddResponseHeader=second-response-by-yml, second-response-header
+            - name: CustomFilter
+            - name: LoggingFilter
+              args:
+                baseMessage: Spring Cloud GateWay Logging Filter
+                preLogger: true
+                postLogger: true
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud GateWay Global Filter
+            preLogger: true
+            postLogger: true
