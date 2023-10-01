@@ -30,7 +30,7 @@ public class SpringSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->{
                     request.requestMatchers(antMatcher("/h2-console/**")).permitAll();
-                    request.requestMatchers(antMatcher("/users/**")).permitAll();})
+                    request.requestMatchers(antMatcher("/user-service/**")).permitAll();})
                             .headers(header -> header.frameOptions(
                                 frameOptionsConfig -> frameOptionsConfig.disable()));
 //                .apply(new MyCustomSecurity());

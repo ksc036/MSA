@@ -1,11 +1,13 @@
 package com.example.userservice.Service;
 
+import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.vo.UserDto;
 
 import java.util.List;
 
 public interface UserService {
     UserDto createUser(UserDto userDto);
-    List<UserDto> findUser();
-
+    UserDto getUserByUserId(String userId);
+    Iterable<UserEntity> getUserByAll();
+    //List<UserDto> findUser();
 }

@@ -1,6 +1,7 @@
 package com.example.userservice.Controller;
 
 import com.example.userservice.Service.UserService;
+import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
 import com.example.userservice.vo.UserDto;
@@ -13,8 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user-service")
 @Slf4j
 public class UserController {
     @Value("${greeting.message}")
@@ -29,7 +34,7 @@ public class UserController {
 
     @GetMapping("/health_check")
     public String status(){
-        return "It's Working in User Service";
+        return String.format("It's Working in User Service on Port %s", env.getProperty("local.server.port"));
     }
 
     @PostMapping("/users")
@@ -44,8 +49,19 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
     @GetMapping("/users")
-    public String findUser(){
-        log.info("{}", userService.findUser());
-        return "findUser";
+    public ResponseEntity<List<ResponseUser>> getUsers(){
+        Iterable<UserEntity> userList = userService.getUserByAll();
+        List<ResponseUser> result = new ArrayList<>();
+        userList.forEach(v -> {
+            result.add(new ModelMapper().map(v,ResponseUser.class));
+        });
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<ResponseUser> getUser(@PathVariable String userId){
+        UserDto userDto = userService.getUserByUserId(userId);
+        ResponseUser returnValue = new ModelMapper().map(userDto,ResponseUser.class);
+        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
 }
