@@ -4,8 +4,8 @@ import com.example.orderservice.dto.OrderDto;
 import com.example.orderservice.jpa.OrderEntity;
 
 public interface OrderService {
-    OrderDto creatOrder(OrderDto orderDetails);
-    OrderDto getOrderByUserId(String userId);
+    OrderDto createOrder(OrderDto orderDetails);
+    Iterable<OrderEntity> getOrdersByUserId(String orderId);
 
-    Iterable<OrderEntity> getOrdersByUserId(String userId);
+    OrderDto getOrderByOrderId(String orderId);
 }

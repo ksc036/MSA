@@ -4,7 +4,7 @@ import com.example.userservice.Service.UserService;
 import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
-import com.example.userservice.vo.UserDto;
+import com.example.userservice.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;

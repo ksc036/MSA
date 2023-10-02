@@ -1,9 +1,7 @@
 package com.example.userservice.Service;
 
 import com.example.userservice.jpa.UserEntity;
-import com.example.userservice.vo.UserDto;
-
-import java.util.List;
+import com.example.userservice.dto.UserDto;
 
 public interface UserService {
     UserDto createUser(UserDto userDto);

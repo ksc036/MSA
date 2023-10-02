@@ -34,6 +34,10 @@ spring:
           predicates:
             - Path=/catalog-service/**
 
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/**
           filters:
 #            - AddRequestHeader=second-request, second-request-header
 #            - AddResponseHeader=second-response-by-yml, second-response-header
