@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,22 +39,30 @@ public class SpringSecurityConfig {
 
         return http.build();
     }
+// 참고한 코드 => 회사가서 확인해보자.
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userService);
+        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+        return authenticationProvider;
+    }
 
-//    public class MyCustomSecurity extends AbstractHttpConfigurer<MyCustomSecurity, HttpSecurity> {
-//
-//        @Override
-//        public void configure(HttpSecurity http) throws Exception {
-//
-//            AuthenticationManager authenticationManager = http.getSharedObject(
-//                    AuthenticationManager.class);
-//            AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager, userService, environment);
-//            http.addFilter(authenticationFilter);
-//        }
-//
-//        protected void configure2(AuthenticationManagerBuilder auth) throws Exception {
-//            auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
-//        }
-//
-//    }
+    public class MyCustomSecurity extends AbstractHttpConfigurer<MyCustomSecurity, HttpSecurity> {
+
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+
+            AuthenticationManager authenticationManager = http.getSharedObject(
+                    AuthenticationManager.class);
+            AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager, userService, environment);
+            http.addFilter(authenticationFilter);
+        }
+
+        protected void configure2(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+        }
+
+    }
 
 }
