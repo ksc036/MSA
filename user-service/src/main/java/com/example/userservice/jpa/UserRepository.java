@@ -2,9 +2,9 @@ package com.example.userservice.jpa;
 
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.Optional;
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
-public interface UserRepository extends CrudRepository<UserEntity,Long> {
     UserEntity findByUserId(String userId);
-    Optional<UserEntity> findByEmail(String Email);
+
+    UserEntity findByEmail(String username);
 }

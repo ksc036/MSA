@@ -9,7 +9,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseUser {
     private String email;
-    private String name;
+    private  String name;
     private String userId;
+
     private List<ResponseOrder> orders;
 }

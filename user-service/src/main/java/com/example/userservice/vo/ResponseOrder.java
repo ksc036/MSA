@@ -7,10 +7,11 @@ import java.util.Date;
 @Data
 public class ResponseOrder {
     private String productId;
-    private Integer qty;
-    private Integer unitPrice;
-    private Integer totalPrice;
+    private Integer qty; //양
+    private Integer unitPrice; //단가
+    private Integer totalPrice; //총계
     private Date createdAt;
 
-    private  String orderId;
+    private String orderId;
+
 }

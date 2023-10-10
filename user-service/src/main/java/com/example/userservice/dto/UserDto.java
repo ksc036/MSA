@@ -1,4 +1,4 @@
-package com.example.userservice.dto;
+package com.example.userservice.Dto;
 
 import com.example.userservice.vo.ResponseOrder;
 import lombok.Data;
@@ -12,7 +12,8 @@ public class UserDto {
     private String name;
     private String pwd;
     private String userId;
-    private Date createAt;
+    private Date createdAt;
+
     private String encryptedPwd;
 
     private List<ResponseOrder> orders;
