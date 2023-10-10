@@ -2,6 +2,7 @@ package com.example.userservice.security;
 
 import com.example.userservice.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -17,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFilter;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
-
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -29,40 +30,27 @@ public class SpringSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        log.info("httpSecurity부분 접근");
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->{
                     request.requestMatchers(antMatcher("/h2-console/**")).permitAll();
                     request.requestMatchers(antMatcher("/user-service/**")).permitAll();})
                             .headers(header -> header.frameOptions(
                                 frameOptionsConfig -> frameOptionsConfig.disable()));
+//                .addFilter();
 //                .apply(new MyCustomSecurity());
 
         return http.build();
     }
-// 참고한 코드 => 회사가서 확인해보자.
     @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userService);
-        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
-        return authenticationProvider;
+    public DaoAuthenticationProvider daoAuthenticationProvider() throws  Exception {
+        log.info("password 암호화부분접근");
+        DaoAuthenticationProvider daoAuthenticationProvider= new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userService);
+        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+
+        return daoAuthenticationProvider;
     }
 
-    public class MyCustomSecurity extends AbstractHttpConfigurer<MyCustomSecurity, HttpSecurity> {
-
-        @Override
-        public void configure(HttpSecurity http) throws Exception {
-
-            AuthenticationManager authenticationManager = http.getSharedObject(
-                    AuthenticationManager.class);
-            AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager, userService, environment);
-            http.addFilter(authenticationFilter);
-        }
-
-        protected void configure2(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
-        }
-
-    }
 
 }
