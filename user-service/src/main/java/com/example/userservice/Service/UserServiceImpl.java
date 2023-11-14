@@ -1,4 +1,4 @@
-package com.example.userservice.service;
+package com.example.userservice.Service;
 
 import com.example.userservice.Dto.UserDto;
 import com.example.userservice.jpa.UserEntity;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements com.example.userservice.service.UserService {
     UserRepository userRepository;
     BCryptPasswordEncoder passwordEncoder;
 
