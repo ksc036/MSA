@@ -28,13 +28,14 @@ public class OrderController {
 
     @GetMapping("/health_check")
     public String status(){
-        return String.format("It's Working in User Service on Port %s", env.getProperty("local.server.port"));
+        return String.format("It's Working in Order Service on Port %s", env.getProperty("local.server.port"));
     }
 
     @PostMapping("/{userId}/orders")
     public ResponseEntity<ResponseOrder> createOrder(@PathVariable("userId") String userId, @RequestBody RequestOrder orderDetails){
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
         OrderDto orderDto = mapper.map(orderDetails, OrderDto.class);
         orderDto.setUserId(userId);
 

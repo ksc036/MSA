@@ -3,13 +3,14 @@ package com.example.userservice.jpa;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name="users")
-public class UserEntity {
+public class UserEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false, length = 50, unique = true)

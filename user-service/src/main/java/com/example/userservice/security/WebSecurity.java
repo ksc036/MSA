@@ -1,6 +1,7 @@
 package com.example.userservice.security;
 
 import com.example.userservice.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -11,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.servlet.Filter;
-
+@Slf4j
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -28,8 +29,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        log.info("1");
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/users/**").permitAll();
+//        http.authorizeRequests().antMatchers("/users/**").permitAll();
         http.authorizeRequests().antMatchers("/**")
                         .hasIpAddress("127.0.0.1")
                                 .and()
@@ -52,6 +54,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     //(db , encrypted) pwd == input_pwd(encrypted)
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        log.info("3");
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
         //애가 select 처리해주는거
 
