@@ -54,8 +54,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     //(db , encrypted) pwd == input_pwd(encrypted)
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        log.info("3");
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
         //애가 select 처리해주는거
 
         super.configure(auth);
